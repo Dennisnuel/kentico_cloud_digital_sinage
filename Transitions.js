@@ -1,0 +1,1 @@
+{slides === [] ? (<div><img/>NODATA</div>) : slides}

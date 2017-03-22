@@ -1,0 +1,15 @@
+
+.slideright-enter {
+  transform: translate(100%);
+}
+.slideright-enter.slideright-enter-active {
+  transform: translate(0%);
+  transition: transform 1000ms ease-in-out;
+}
+.slideright-leave {
+  transform: translate(0%);
+}
+.slideright-leave.slideright-leave-active {
+  transform: translate(-100%);
+  transition: transform 1000ms ease-in-out;
+}

@@ -69,11 +69,11 @@ class SlideIndex extends Component {
             height: '100%'
         };
         let slideHtml = this.state.slides.length === 0 ? null :  (<div key={'bong' + x}>
-                    <div class='slide' id={"slide-" + x} style={style} dangerouslySetInnerHTML={{ __html: slidebody }} key={x} />
+                    <div className='slide' id={"slide-" + x} style={style} dangerouslySetInnerHTML={{ __html: slidebody }} key={x} />
                 </div>)
         return (
             <ReactCSSTransitionGroup
-                transitionName="slideright"
+                transitionName="hingefall"
                 transitionEnterTimeout={1000}
                 transitionLeaveTimeout={1000}>
                 {slideHtml}

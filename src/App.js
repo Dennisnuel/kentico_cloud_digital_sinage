@@ -27,12 +27,7 @@ class App extends Component {
             <h1>Third Screen</h1>
           </ScreenSlice>
         </Screen>*/}
-        
-          
-
             <SlideIndex/>
-          
-
       </div>
     );
   }

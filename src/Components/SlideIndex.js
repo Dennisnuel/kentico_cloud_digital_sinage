@@ -9,7 +9,8 @@ class SlideIndex extends Component {
         super(props);
         this.state = {
             slides: [],
-            currentSlideIndex: 0
+            currentSlideIndex: 0,
+            defaultTransition: 'slideright'
         }
 
         this.setTimer = this.setTimer.bind(this);
@@ -45,39 +46,53 @@ class SlideIndex extends Component {
     componentUnmount() {
         clearInterval(this.state.interval);
     }
-    render() {
-
-
-
-        //let slideelement = <div id={"slide-"+this.currentSlideIndex} style={style} dangerouslySetInnerHTML={{ __html: slide }} key={this.currentSlideIndex} />
-        /*const slideoutput = this.state.slides.map((slide, index) => {
-            let slidebody = slide.elements.slide_body_text.value;
-            return (
-                <div style={style} dangerouslySetInnerHTML={{ __html: slidebody }} key={index} />
-            )
-        });*/
+    generateSlide() {
         let x = this.state.currentSlideIndex;
         let slide = this.state.slides[x];
         let slidebody = this.state.slides.length === 0 ? "<div>NODATA</div>" : slide.elements.slide_body_text.value;
-        let slidebackground = this.state.slides.length === 0 ? null : slide.elements.slide_color.value;
+        let slidebackground = this.state.slides.length === 0 ? 'white' : slide.elements.slide_color.value;
+        let slidetransition = this.state.slides.length === 0 ? this.state.defaultTransition : slide.elements.transition.value[0].name;
         let style = {
-            position: 'fixed',
-            top: 0,
-            zIndex: -1000,
-            color : slidebackground,
-            width: '100%',
-            height: '100%'
+            position:'absolute',
+            display:'flex',
+            flex: "100% 1 1",
+            'flex-direction': 'column',
+            zIndex: 'auto',
+            color: 'black',
+            fontSize:'700%',
+            maxWidth: '90%',
+            maxHeight: '90%',
+            margin: 'auto',
+            'align-content': 'center'
         };
-        let slideHtml = this.state.slides.length === 0 ? null :  (<div key={'bong' + x}>
-                    <div className='slide' id={"slide-" + x} style={style} dangerouslySetInnerHTML={{ __html: slidebody }} key={x} />
-                </div>)
+        let backgroundstyle = {
+            position: 'fixed',
+            display:'flex',
+            top: 0,
+            zIndex: 'auto',
+            justifyContent:'center',
+            alignItems:'center',
+            width: '100%',
+            height: '100%',
+            backgroundColor: slidebackground
+        }
+        let slideHtml = this.state.slides.length === 0 ? null : (<div className='slideBackground' style={backgroundstyle} key={'back' + x}>
+            <div className='slide' id={"slide-" + x} style={style} dangerouslySetInnerHTML={{ __html: slidebody }} key={x} />
+        </div>)
         return (
             <ReactCSSTransitionGroup
-                transitionName="hingefall"
+                transitionAppear={true}
+                transitionAppearTimeout={1000}
+                transitionName={slidetransition}
                 transitionEnterTimeout={1000}
                 transitionLeaveTimeout={1000}>
                 {slideHtml}
             </ReactCSSTransitionGroup>
+        )
+    }
+    render() {
+        return (
+            this.generateSlide()
         );
     }
 }

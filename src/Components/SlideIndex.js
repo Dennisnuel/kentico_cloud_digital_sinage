@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Client from '../Client';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import '../Transitions/Slide.css';
+import HTMLParser from 'html-react-parser';
+
 
 
 class SlideIndex extends Component {
@@ -53,32 +55,37 @@ class SlideIndex extends Component {
         let slidebackground = this.state.slides.length === 0 ? 'white' : slide.elements.slide_color.value;
         let slidetransition = this.state.slides.length === 0 ? this.state.defaultTransition : slide.elements.transition.value[0].name;
         let style = {
-            position:'absolute',
-            display:'flex',
+            position: 'absolute',
+            display: 'flex',
             flex: "100% 1 1",
-            'flex-direction': 'column',
+            'flexDirection': 'column',
             zIndex: 'auto',
+            fontsize: "200%",
             color: 'black',
-            fontSize:'700%',
+            fontSize: '3vmax',
             maxWidth: '90%',
             maxHeight: '90%',
             margin: 'auto',
-            'align-content': 'center'
+            'alignContent': 'center'
         };
         let backgroundstyle = {
             position: 'fixed',
-            display:'flex',
+            display: 'flex',
             top: 0,
             zIndex: 'auto',
-            justifyContent:'center',
-            alignItems:'center',
+            //justifyContent: 'center',
+            //alignItems: 'center',
             width: '100%',
             height: '100%',
             backgroundColor: slidebackground
         }
-        let slideHtml = this.state.slides.length === 0 ? null : (<div className='slideBackground' style={backgroundstyle} key={'back' + x}>
-            <div className='slide' id={"slide-" + x} style={style} dangerouslySetInnerHTML={{ __html: slidebody }} key={x} />
-        </div>)
+        let slideJSX = this.state.slides.length === 0 ? null : (
+            <div className='slideBackground' style={backgroundstyle} key={'back' + x}>
+                <div className='slide' id={"slide-" + x} style={style} key={x} >
+                    {HTMLParser(slidebody)}
+                </div>
+            </div>
+        )
         return (
             <ReactCSSTransitionGroup
                 transitionAppear={true}
@@ -86,7 +93,7 @@ class SlideIndex extends Component {
                 transitionName={slidetransition}
                 transitionEnterTimeout={1000}
                 transitionLeaveTimeout={1000}>
-                {slideHtml}
+                {slideJSX}
             </ReactCSSTransitionGroup>
         )
     }
